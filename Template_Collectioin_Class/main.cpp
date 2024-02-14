@@ -25,17 +25,17 @@ public:
 			n -= 1;
 		} while (n>0);*/ 
 		//------ второй вариант
-		int count{0}; // счётчик кол-ва добавленных точек, {} проверяют корректность типа данных, что в переменную передано именно число типа int
+		int addedNodes{}; // счётчик кол-ва добавленных точек, {} проверяют корректность типа данных, что в переменную передано именно число типа int
 		tmp = new Node{};
 		start_ = tmp; // 1-ая созданная точка - это начало
 		end_ = tmp; // 1-ая созданная точка - это и конец
-		count += 1; // посчитали созданную точку
+		addedNodes += 1; // посчитали созданную точку
 		// Далее добавляем в список новые точки
-		while (count < n) { // в n хранится значение от пользователя, сколько Node нужно
+		while (addedNodes < n) { // в n хранится значение от пользователя, сколько Node нужно
 			tmp = new Node{}; // создаём новую точку (выделяем под неё место)
 			end_-> Next(tmp); // Устанавливаем значение последнему элементу (старому концу списка говорим, что новый конечный элемент существует)
 			end_ = tmp; // Список запоминает, какой элемент считается последним 
-			count += 1; // Считает, сколько Node создано
+			addedNodes += 1; // Считает, сколько Node создано
 		}
 		size_ = n;
 	}
@@ -79,6 +79,7 @@ public:
 		size_ = 0;
 	}
 
+	// Присваивание копированием
 	// Чтобы не возникали ошибки работы с памятью:
 	LinkedList& operator = (const LinkedList& other) { // присваивание копированием
 		clear(); // Чистим список под новые данные
@@ -94,7 +95,7 @@ public:
 		size_ = other.size_;
 		return *this;
 	}
-	LinkedList& operator = (const LinkedList&& other) { // присваивание переносом временного объекта
+	LinkedList& operator = (LinkedList&& other) { // присваивание переносом временного объекта
 		clear(); 
 		std::swap(start_, other.strat_);
 		std::swap(end_, other.end_);
@@ -111,7 +112,7 @@ public:
 		return tmp->Data();
 	}
 
-	Type& at(int i) {
+	Type &at(int i) {
 		if (i < 0 || i >= size_) throw - 1; // Если мы вышли за диапазон значений
 		int count{};
 		Node* tmp = start_;
@@ -147,7 +148,7 @@ public:
 	//Type& at(int i); // метод at позволяет получать доступ к коллекциям, at может кидать исключения, [] исключений не кидают, [] делают то, что попросили
 	//const Type& at(int i)const;
 	
-	void push_back(const Type& obj) // Добавить данные в конец списка
+	void push_back(const Type &obj) // Добавить данные в конец списка
 	{
 		Node* tmp = new Node{ obj };
 		if (!size_) { // size_ == 0
@@ -160,7 +161,7 @@ public:
 		}
 		size_ += 1;
 	}
-	void push_front(const Type& obj) // Добавить данные в начало
+	void push_front(const Type& obj) // Добавить данные в начало списка
 	{
 		Node* tmp = new Node{ obj };
 		if (!size_) { // size_ == 0
